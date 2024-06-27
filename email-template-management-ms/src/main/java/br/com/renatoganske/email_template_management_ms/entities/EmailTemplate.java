@@ -1,6 +1,7 @@
 package br.com.renatoganske.email_template_management_ms.entities;
 
 import br.com.renatoganske.email_template_management_ms.dtos.EmailTemplateDto;
+import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailTemplateDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,10 @@ public class EmailTemplate implements Serializable {
 
     public EmailTemplateDto toDto() {
         return new EmailTemplateDto(id, name, content);
+    }
+
+    public ToListEmailTemplateDto toListDto() {
+        return new ToListEmailTemplateDto(id, name);
     }
 
 }

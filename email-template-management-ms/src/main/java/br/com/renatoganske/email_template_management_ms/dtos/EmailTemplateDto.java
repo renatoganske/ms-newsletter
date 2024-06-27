@@ -12,11 +12,14 @@ import java.util.UUID;
 @Schema(description = "Esse DTO representa um template de email.")
 public record EmailTemplateDto(
 
+        @Schema(example = "123e4567-e89b-12d3-a456-426614174000", description = "Email Template ID")
         UUID id,
-        @Size(message = "O nome deve ter no mínimo 3 e no máximo 50 caracteres.", min = 3, max = 50)
-        @NotEmpty(message = "Informe um nome para o template.")
+        @Schema(example = "Welcome Email", description = "Template name")
+        @Size(message = "The name must be between 3 and 50 characters.", min = 3, max = 50)
+        @NotEmpty(message = "A name must be informed.")
         String name,
-        @NotEmpty(message = "Informe o template.")
+        @Schema(example = "<html><body>Template content [...]</body></html>", description = "Template content")
+        @NotEmpty(message = "A content must be informed.")
         String content) implements Serializable {
 
         public EmailTemplate toEntity() {

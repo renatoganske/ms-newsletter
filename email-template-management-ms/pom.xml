@@ -11,8 +11,8 @@
 	<groupId>br.com.renatoganske</groupId>
 	<artifactId>email-template-management-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>email-template-management-ms</name>
-	<description>Email Template Management</description>
+	<name>Email Template Management</name>
+	<description>Microservice for managing email templates.</description>
 	<url/>
 	<licenses>
 		<license/>

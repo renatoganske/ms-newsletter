@@ -1,6 +1,7 @@
 package br.com.renatoganske.email_template_management_ms.services;
 
 import br.com.renatoganske.email_template_management_ms.dtos.EmailTemplateDto;
+import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailTemplateDto;
 import br.com.renatoganske.email_template_management_ms.entities.EmailTemplate;
 import br.com.renatoganske.email_template_management_ms.repositories.EmailTemplateRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,9 @@ public class EmailTemplateService {
 
     private final EmailTemplateRepository emailTemplateRepository;
 
-    public List<EmailTemplateDto> getAll() {
+    public List<ToListEmailTemplateDto> getAll() {
         log.info("Getting all email templates");
-        return emailTemplateRepository.findAll().stream().map(EmailTemplate::toDto).toList();
+        return emailTemplateRepository.findAll().stream().map(EmailTemplate::toListDto).toList();
     }
 
     public EmailTemplateDto getById(UUID id) {

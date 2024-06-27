@@ -2,6 +2,7 @@ package br.com.renatoganske.email_template_management_ms.controller.impl;
 
 import br.com.renatoganske.email_template_management_ms.controller.IEmailTemplateController;
 import br.com.renatoganske.email_template_management_ms.dtos.EmailTemplateDto;
+import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailTemplateDto;
 import br.com.renatoganske.email_template_management_ms.services.EmailTemplateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,12 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class EmailEmailTemplateController implements IEmailTemplateController {
+public class EmailTemplateController implements IEmailTemplateController {
 
     private final EmailTemplateService service;
 
     @Override
-    public ResponseEntity<List<EmailTemplateDto>> findAll() {
+    public ResponseEntity<List<ToListEmailTemplateDto>> findAll() {
         return ResponseEntity.ok(service.getAll());
     }
 

@@ -35,5 +35,4 @@ public interface IEmailTemplateController {
     @Operation(summary = "Excludes email template", description = "Excludes an existing email template.")
     @DeleteMapping("/{id}")
     void delete(@PathVariable UUID id);
-
 }

@@ -3,6 +3,7 @@ package br.com.renatoganske.email_template_management_ms.services;
 import br.com.renatoganske.email_template_management_ms.dtos.EmailTemplateDto;
 import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailTemplateDto;
 import br.com.renatoganske.email_template_management_ms.entities.EmailTemplate;
+import br.com.renatoganske.email_template_management_ms.errorHandling.exception.business.EmailTemplateNotFoundException;
 import br.com.renatoganske.email_template_management_ms.repositories.EmailTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,11 +32,11 @@ public class EmailTemplateService {
             return emailTemplate.get().toDto();
         }
         log.error("Email template not found with id {}", id);
-        throw new RuntimeException("Email template not found with id " + id);
+        throw new EmailTemplateNotFoundException();
     }
 
     public EmailTemplate save(EmailTemplateDto emailTemplateDto) {
-        log.info("Saving email template {}", emailTemplateDto.name());
+        log.info("Saving email template {}", emailTemplateDto.subject());
         return emailTemplateRepository.save(emailTemplateDto.toEntity());
     }
 
@@ -44,13 +45,13 @@ public class EmailTemplateService {
         Optional<EmailTemplate> emailTemplate = getEmailTemplate(id);
         if (emailTemplate.isPresent()) {
             EmailTemplate template = emailTemplate.get();
-            template.setName(updatingEmailTemplateDto.name());
+            template.setSubject(updatingEmailTemplateDto.subject());
             template.setContent(updatingEmailTemplateDto.content());
             log.info("Email template with id {} updated", id);
             return emailTemplateRepository.save(template);
         } else {
             log.error("Email template not found with id {}", id);
-            throw new RuntimeException("Template not found with id " + id);
+            throw new EmailTemplateNotFoundException();
         }
     }
 
@@ -61,7 +62,7 @@ public class EmailTemplateService {
             emailTemplateRepository.deleteById(id);
         } else {
             log.error("Email template not found with id {}", id);
-            throw new RuntimeException("Template not found with id " + id);
+            throw new EmailTemplateNotFoundException();
         }
     }
 

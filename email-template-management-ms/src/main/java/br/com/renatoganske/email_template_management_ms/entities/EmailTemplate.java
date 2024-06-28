@@ -21,14 +21,15 @@ public class EmailTemplate implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String name;
+    private String subject;
     private String content;
 
     public EmailTemplateDto toDto() {
-        return new EmailTemplateDto(id, name, content);
+        return new EmailTemplateDto(id, name, subject, content);
     }
 
     public ToListEmailTemplateDto toListDto() {
-        return new ToListEmailTemplateDto(id, name);
+        return new ToListEmailTemplateDto(id,name);
     }
 
 }

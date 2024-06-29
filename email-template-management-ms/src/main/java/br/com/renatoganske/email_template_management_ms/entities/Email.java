@@ -1,6 +1,6 @@
 package br.com.renatoganske.email_template_management_ms.entities;
 
-import br.com.renatoganske.email_template_management_ms.dtos.EmailDto;
+import br.com.renatoganske.email_template_management_ms.dtos.EmailOnlyIdDto;
 import br.com.renatoganske.email_template_management_ms.dtos.OnlyIdEmailTemplateDto;
 import br.com.renatoganske.email_template_management_ms.dtos.OnlyIdRecipientDto;
 import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailDto;
@@ -34,8 +34,8 @@ public class Email {
             inverseJoinColumns = @JoinColumn(name = "recipient_id"))
     private List<Recipient> recipients = new ArrayList<>();
 
-    public EmailDto toDto() {
-        return new EmailDto(
+    public EmailOnlyIdDto toDto() {
+        return new EmailOnlyIdDto(
                 id,
                 template.toOnlyIdDto(),
                 recipients.stream().map(Recipient::toOnlyIdDto).toList());

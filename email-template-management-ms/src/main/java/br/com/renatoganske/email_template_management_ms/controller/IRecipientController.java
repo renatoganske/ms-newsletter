@@ -1,9 +1,6 @@
 package br.com.renatoganske.email_template_management_ms.controller;
 
-import br.com.renatoganske.email_template_management_ms.dtos.EmailDto;
-import br.com.renatoganske.email_template_management_ms.dtos.EmailTemplateDto;
 import br.com.renatoganske.email_template_management_ms.dtos.RecipientDto;
-import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailTemplateDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

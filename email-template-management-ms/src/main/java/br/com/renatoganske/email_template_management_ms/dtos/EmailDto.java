@@ -15,18 +15,18 @@ public record EmailDto(
 
         @Schema(description = "Email template")
         @NotEmpty(message = "An email template must be provided.")
-        OnlyIdEmailTemplateDto template,
+        EmailTemplateDto template,
 
         @Schema(description = "List of recipients")
         @NotEmpty(message = "At least one recipient must be provided.")
-        List<OnlyIdRecipientDto> recipients
+        List<RecipientDto> recipients
 ) {
 
     public Email toEntity() {
         return Email.builder()
                 .id(id)
                 .template(template.toEntity())
-                .recipients(recipients.stream().map(OnlyIdRecipientDto::toEntity).toList())
+                .recipients(recipients.stream().map(RecipientDto::toEntity).toList())
                 .build();
 
     }

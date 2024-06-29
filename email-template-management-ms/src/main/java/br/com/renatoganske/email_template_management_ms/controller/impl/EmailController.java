@@ -1,7 +1,7 @@
 package br.com.renatoganske.email_template_management_ms.controller.impl;
 
 import br.com.renatoganske.email_template_management_ms.controller.IEmailController;
-import br.com.renatoganske.email_template_management_ms.dtos.EmailDto;
+import br.com.renatoganske.email_template_management_ms.dtos.EmailOnlyIdDto;
 import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailDto;
 import br.com.renatoganske.email_template_management_ms.services.EmailService;
 import jakarta.validation.Valid;
@@ -29,26 +29,26 @@ public class EmailController implements IEmailController {
     }
 
     @Override
-    public ResponseEntity<EmailDto> findById(UUID id) {
+    public ResponseEntity<EmailOnlyIdDto> findById(UUID id) {
         return ResponseEntity.ok(service.getById(id).toDto());
     }
 
     @Override
-    public ResponseEntity<EmailDto> save(EmailDto emailDto) {
-        EmailDto savedEmailDto = service.save(emailDto).toDto();
+    public ResponseEntity<EmailOnlyIdDto> save(EmailOnlyIdDto emailOnlyIdDto) {
+        EmailOnlyIdDto savedEmailOnlyIdDto = service.save(emailOnlyIdDto).toDto();
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedEmailDto.id())
+                .buildAndExpand(savedEmailOnlyIdDto.id())
                 .toUri();
 
-        return ResponseEntity.created(location).body(savedEmailDto);
+        return ResponseEntity.created(location).body(savedEmailOnlyIdDto);
     }
 
     @Override
-    public ResponseEntity<EmailDto> update(@PathVariable UUID id,
-                                               @Valid @RequestBody EmailDto emailDto) {
-        return ResponseEntity.ok(service.update(id, emailDto).toDto());
+    public ResponseEntity<EmailOnlyIdDto> update(@PathVariable UUID id,
+                                                 @Valid @RequestBody EmailOnlyIdDto emailOnlyIdDto) {
+        return ResponseEntity.ok(service.update(id, emailOnlyIdDto).toDto());
     }
 
     @Override

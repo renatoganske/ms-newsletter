@@ -1,6 +1,6 @@
 package br.com.renatoganske.email_template_management_ms.services;
 
-import br.com.renatoganske.email_template_management_ms.dtos.EmailDto;
+import br.com.renatoganske.email_template_management_ms.dtos.EmailOnlyIdDto;
 import br.com.renatoganske.email_template_management_ms.dtos.OnlyIdRecipientDto;
 import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailDto;
 import br.com.renatoganske.email_template_management_ms.entities.Email;
@@ -47,30 +47,30 @@ public class EmailService {
     }
 
 
-    public Email save(EmailDto emailDto) {
-        log.info("Saving email {}", emailDto.id());
-        return repository.save(emailDto.toEntity());
+    public Email save(EmailOnlyIdDto emailOnlyIdDto) {
+        log.info("Saving email {}", emailOnlyIdDto.id());
+        return repository.save(emailOnlyIdDto.toEntity());
     }
 
 
-    public Email update(UUID id, EmailDto updatingEmailDto) {
+    public Email update(UUID id, EmailOnlyIdDto updatingEmailOnlyIdDto) {
         log.info("Updating email with id {}", id);
 
         Optional<Email> optionalEmail = getEmail(id);
         if (optionalEmail.isPresent()) {
 
             Email email = optionalEmail.get();
-            UUID templateId = updatingEmailDto.template().id();
+            UUID templateId = updatingEmailOnlyIdDto.template().id();
             EmailTemplate emailTemplate = emailTemplateRepository.findById(templateId)
-                    .orElseThrow(() -> new EmailTemplateNotFoundException());
+                    .orElseThrow(EmailTemplateNotFoundException::new);
             email.setTemplate(emailTemplate);
 
-            if (updatingEmailDto.recipients() != null && !updatingEmailDto.recipients().isEmpty()) {
+            if (updatingEmailOnlyIdDto.recipients() != null && !updatingEmailOnlyIdDto.recipients().isEmpty()) {
                 List<Recipient> updatedRecipients = new ArrayList<>();
-                for (OnlyIdRecipientDto recipientDto : updatingEmailDto.recipients()) {
+                for (OnlyIdRecipientDto recipientDto : updatingEmailOnlyIdDto.recipients()) {
                     UUID recipientId = recipientDto.id();
                     Recipient recipient = recipientRepository.findById(recipientId)
-                            .orElseThrow(() -> new RecipientNotFoundException());
+                            .orElseThrow(RecipientNotFoundException::new);
                     updatedRecipients.add(recipient);
                 }
                 email.setRecipients(updatedRecipients);
@@ -95,7 +95,8 @@ public class EmailService {
         }
     }
 
-    public void send(EmailDto emailDto) {
+    public void send(EmailOnlyIdDto emailOnlyIdDto) {
+
     //TODO implementar o producer do rabbitMQ
     }
 

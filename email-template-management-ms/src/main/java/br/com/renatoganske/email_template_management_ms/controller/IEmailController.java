@@ -1,6 +1,6 @@
 package br.com.renatoganske.email_template_management_ms.controller;
 
-import br.com.renatoganske.email_template_management_ms.dtos.EmailDto;
+import br.com.renatoganske.email_template_management_ms.dtos.EmailOnlyIdDto;
 import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,15 +23,15 @@ public interface IEmailController {
 
     @Operation(summary = "Find email by id", description = "Find a email by id.")
     @GetMapping("/{id}")
-    ResponseEntity<EmailDto> findById(@PathVariable UUID id);
+    ResponseEntity<EmailOnlyIdDto> findById(@PathVariable UUID id);
 
     @Operation(summary = "Save new email", description = "Saves a new email.")
     @PostMapping
-    ResponseEntity<EmailDto> save(@Valid @RequestBody EmailDto emailDto);
+    ResponseEntity<EmailOnlyIdDto> save(@Valid @RequestBody EmailOnlyIdDto emailOnlyIdDto);
 
     @Operation(summary = "Update email", description = "Updates an existing email.")
     @PutMapping("/{id}")
-    ResponseEntity<EmailDto> update(@PathVariable UUID id, @Valid @RequestBody EmailDto emailDto);
+    ResponseEntity<EmailOnlyIdDto> update(@PathVariable UUID id, @Valid @RequestBody EmailOnlyIdDto emailOnlyIdDto);
 
     @Operation(summary = "Excludes email", description = "Excludes an existing email.")
     @DeleteMapping("/{id}")

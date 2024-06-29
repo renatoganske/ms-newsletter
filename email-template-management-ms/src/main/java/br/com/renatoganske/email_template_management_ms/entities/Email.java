@@ -1,8 +1,13 @@
 package br.com.renatoganske.email_template_management_ms.entities;
 
+import br.com.renatoganske.email_template_management_ms.dtos.EmailDto;
+import br.com.renatoganske.email_template_management_ms.dtos.OnlyIdEmailTemplateDto;
+import br.com.renatoganske.email_template_management_ms.dtos.OnlyIdRecipientDto;
+import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,14 +25,29 @@ public class Email {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "template_id")
+    @JoinColumn(name = "email_template_id")
     private EmailTemplate template;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "email_recipient",
+    @ManyToMany
+    @JoinTable(name = "recipients_emails",
             joinColumns = @JoinColumn(name = "email_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipient_id")
-    )
-    private List<Recipient> recipients;
+            inverseJoinColumns = @JoinColumn(name = "recipient_id"))
+    private List<Recipient> recipients = new ArrayList<>();
+
+    public EmailDto toDto() {
+        return new EmailDto(
+                id,
+                template.toOnlyIdDto(),
+                recipients.stream().map(Recipient::toOnlyIdDto).toList());
+    }
+
+    public ToListEmailDto toListEmailDto() {
+        OnlyIdEmailTemplateDto templateDto = new OnlyIdEmailTemplateDto(template.getId());
+        List<OnlyIdRecipientDto> recipientDtos = new ArrayList<>();
+        for (Recipient recipient : recipients) {
+            recipientDtos.add(new OnlyIdRecipientDto(recipient.getId()));
+        }
+
+        return new ToListEmailDto(id, templateDto, recipientDtos);
+    }
 }

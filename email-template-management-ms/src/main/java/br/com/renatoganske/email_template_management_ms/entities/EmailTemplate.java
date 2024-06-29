@@ -1,6 +1,7 @@
 package br.com.renatoganske.email_template_management_ms.entities;
 
 import br.com.renatoganske.email_template_management_ms.dtos.EmailTemplateDto;
+import br.com.renatoganske.email_template_management_ms.dtos.OnlyIdEmailTemplateDto;
 import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailTemplateDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +10,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name="email-templates")
+@Table(name="email_templates")
 @Getter
 @Setter
 @Builder
@@ -30,6 +31,10 @@ public class EmailTemplate implements Serializable {
 
     public ToListEmailTemplateDto toListDto() {
         return new ToListEmailTemplateDto(id,name);
+    }
+
+    public OnlyIdEmailTemplateDto toOnlyIdDto() {
+        return new OnlyIdEmailTemplateDto(id);
     }
 
 }

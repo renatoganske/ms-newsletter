@@ -47,7 +47,7 @@ public class EmailTemplateController implements IEmailTemplateController {
 
     @Override
     public ResponseEntity<EmailTemplateDto> update(@PathVariable UUID id,
-                                                           @Valid @RequestBody EmailTemplateDto emailTemplateDto) {
+                                                   @Valid @RequestBody EmailTemplateDto emailTemplateDto) {
         return ResponseEntity.ok(service.update(id, emailTemplateDto).toDto());
     }
 

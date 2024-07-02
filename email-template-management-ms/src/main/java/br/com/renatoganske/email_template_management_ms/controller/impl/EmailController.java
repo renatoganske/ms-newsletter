@@ -30,12 +30,12 @@ public class EmailController implements IEmailController {
 
     @Override
     public ResponseEntity<EmailOnlyIdDto> findById(UUID id) {
-        return ResponseEntity.ok(service.getById(id).toDto());
+        return ResponseEntity.ok(service.getById(id).toOnlyIdDto());
     }
 
     @Override
     public ResponseEntity<EmailOnlyIdDto> save(EmailOnlyIdDto emailOnlyIdDto) {
-        EmailOnlyIdDto savedEmailOnlyIdDto = service.save(emailOnlyIdDto).toDto();
+        EmailOnlyIdDto savedEmailOnlyIdDto = service.save(emailOnlyIdDto).toOnlyIdDto();
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -48,7 +48,7 @@ public class EmailController implements IEmailController {
     @Override
     public ResponseEntity<EmailOnlyIdDto> update(@PathVariable UUID id,
                                                  @Valid @RequestBody EmailOnlyIdDto emailOnlyIdDto) {
-        return ResponseEntity.ok(service.update(id, emailOnlyIdDto).toDto());
+        return ResponseEntity.ok(service.update(id, emailOnlyIdDto).toOnlyIdDto());
     }
 
     @Override

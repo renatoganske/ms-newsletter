@@ -30,4 +30,12 @@ public record EmailOnlyIdDto(
                 .build();
 
     }
+
+    public EmailDto toDto(Email email) {
+        return new EmailDto(
+                email.getId(),
+                template.toDto(email.getTemplate()),
+                email.getRecipients().stream().map(OnlyIdRecipientDto::toDto).toList()
+        );
+    }
 }

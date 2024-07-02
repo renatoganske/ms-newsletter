@@ -18,4 +18,12 @@ public record OnlyIdRecipientDto(
                         .id(id)
                         .build();
         }
+
+        public static RecipientDto toDto(Recipient recipient) {
+                return new RecipientDto(
+                        recipient.getId(),
+                        recipient.getName(),
+                        recipient.getEmail()
+                );
+        }
 }

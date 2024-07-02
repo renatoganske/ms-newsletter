@@ -66,9 +66,7 @@ public class EmailTemplateService {
         }
     }
 
-    private Optional<EmailTemplate> getEmailTemplate(UUID id) {
+    public Optional<EmailTemplate> getEmailTemplate(UUID id) {
         return emailTemplateRepository.findById(id);
     }
-
-
 }

@@ -30,4 +30,24 @@ public record EmailDto(
                 .build();
 
     }
+
+    public static EmailDto fromEntity(Email email) {
+        return new EmailDto(
+                email.getId(),
+                new EmailTemplateDto(
+                        email.getTemplate().getId(),
+                        email.getTemplate().getName(),
+                        email.getTemplate().getSubject(),
+                        email.getTemplate().getContent()
+                ),
+                email.getRecipients().stream()
+                        .map(recipient -> new RecipientDto(
+                                recipient.getId(),
+                                recipient.getName(),
+                                recipient.getEmail()
+                        ))
+                        .toList()
+        );
+    }
+
 }

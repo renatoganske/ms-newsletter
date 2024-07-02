@@ -20,4 +20,12 @@ public record OnlyIdEmailTemplateDto(
                         .build();
         }
 
+        public EmailTemplateDto toDto(EmailTemplate emailTemplate) {
+                return new EmailTemplateDto(
+                        emailTemplate.getId(),
+                        emailTemplate.getName(),
+                        emailTemplate.getSubject(),
+                        emailTemplate.getContent()
+                );
+        }
 }

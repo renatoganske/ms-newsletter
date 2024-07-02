@@ -1,9 +1,7 @@
 package br.com.renatoganske.email_template_management_ms.services;
 
 import br.com.renatoganske.email_template_management_ms.dtos.RecipientDto;
-import br.com.renatoganske.email_template_management_ms.entities.EmailTemplate;
 import br.com.renatoganske.email_template_management_ms.entities.Recipient;
-import br.com.renatoganske.email_template_management_ms.errorHandling.exception.business.EmailTemplateNotFoundException;
 import br.com.renatoganske.email_template_management_ms.errorHandling.exception.business.RecipientNotFoundException;
 import br.com.renatoganske.email_template_management_ms.repositories.RecipientRepository;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +65,7 @@ public class RecipientService {
         }
     }
 
-    private Optional<Recipient> getRecipient(UUID id) {
+    public Optional<Recipient> getRecipient(UUID id) {
         return recipientRepository.findById(id);
     }
 }

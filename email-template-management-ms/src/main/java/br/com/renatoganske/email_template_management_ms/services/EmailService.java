@@ -9,6 +9,7 @@ import br.com.renatoganske.email_template_management_ms.entities.Recipient;
 import br.com.renatoganske.email_template_management_ms.errorHandling.exception.business.EmailNotFoundException;
 import br.com.renatoganske.email_template_management_ms.errorHandling.exception.business.EmailTemplateNotFoundException;
 import br.com.renatoganske.email_template_management_ms.errorHandling.exception.business.RecipientNotFoundException;
+import br.com.renatoganske.email_template_management_ms.producer.EmailProducer;
 import br.com.renatoganske.email_template_management_ms.repositories.EmailRepository;
 import br.com.renatoganske.email_template_management_ms.repositories.EmailTemplateRepository;
 import br.com.renatoganske.email_template_management_ms.repositories.RecipientRepository;
@@ -29,6 +30,7 @@ public class EmailService {
     private final EmailRepository repository;
     private final EmailTemplateRepository emailTemplateRepository;
     private final RecipientRepository recipientRepository;
+    private final EmailProducer emailProducer;
 
     public List<ToListEmailDto> getAll() {
         log.info("Getting all emails");
@@ -95,9 +97,8 @@ public class EmailService {
         }
     }
 
-    public void send(EmailOnlyIdDto emailOnlyIdDto) {
-
-    //TODO implementar o producer do rabbitMQ
+    public void send(UUID id) {
+        emailProducer.publishMessageEmail(id);
     }
 
     private Optional<Email> getEmail(UUID id) {

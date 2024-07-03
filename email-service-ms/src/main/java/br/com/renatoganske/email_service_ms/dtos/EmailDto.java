@@ -1,63 +1,31 @@
 package br.com.renatoganske.email_service_ms.dtos;
 
-import br.com.renatoganske.email_service_ms.entities.Email;
-import br.com.renatoganske.email_service_ms.enums.StatusEmail;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
-public record EmailDto(
-
-
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class EmailDto {
         @Schema(description = "Email ID")
-        UUID emailId,
-
-        @Schema(description = "Email template ID")
-        UUID emailTemplateId,
-
-        @Schema(description = "Email sender")
-        String emailFrom,
+        private UUID emailId;
 
         @Schema(description = "Email recipient")
-        String emailTo,
-
-        @Schema(description = "Email name")
-        String emailName,
+        private String emailTo;
 
         @Schema(description = "Email subject")
-        String subject,
+        private String subject;
 
         @Schema(description = "Email content")
-        String content,
+        private String content;
 
-        @Schema(description = "Email send date")
-        LocalDateTime sendDateEmail,
-
-        @Schema(description = "Email status")
-        StatusEmail statusEmail,
-
-        @Schema(description = "Recipient ID")
-        UUID recipientId,
-
-        @Schema(description = "Recipient name")
-        String recipientName) {
-
-        public Email toEntity() {
-            return Email.builder()
-                    .emailId(emailId)
-                    .emailTemplateId(emailTemplateId)
-                    .emailFrom(emailFrom)
-                    .emailTo(emailTo)
-                    .emailName(emailName)
-                    .subject(subject)
-                    .content(content)
-                    .sendDateEmail(sendDateEmail)
-                    .statusEmail(statusEmail)
-                    .recipientId(recipientId)
-                    .recipientName(recipientName)
-                    .build();
-        }
+        @Schema(description = "List of recipients")
+        private List<RecipientDto> recipients;
 }
-

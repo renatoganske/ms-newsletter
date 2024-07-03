@@ -19,13 +19,4 @@ public record OnlyIdEmailTemplateDto(
                         .id(id)
                         .build();
         }
-
-        public EmailTemplateDto toDto(EmailTemplate emailTemplate) {
-                return new EmailTemplateDto(
-                        emailTemplate.getId(),
-                        emailTemplate.getName(),
-                        emailTemplate.getSubject(),
-                        emailTemplate.getContent()
-                );
-        }
 }

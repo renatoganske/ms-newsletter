@@ -14,7 +14,6 @@ public record EmailOnlyIdDto(
         UUID id,
 
         @Schema(description = "Email template")
-        @NotEmpty(message = "An email template must be provided.")
         OnlyIdEmailTemplateDto template,
 
         @Schema(description = "List of recipients")
@@ -29,13 +28,5 @@ public record EmailOnlyIdDto(
                 .recipients(recipients.stream().map(OnlyIdRecipientDto::toEntity).toList())
                 .build();
 
-    }
-
-    public EmailDto toDto(Email email) {
-        return new EmailDto(
-                email.getId(),
-                template.toDto(email.getTemplate()),
-                email.getRecipients().stream().map(OnlyIdRecipientDto::toDto).toList()
-        );
     }
 }

@@ -58,6 +58,6 @@ public class EmailController implements IEmailController {
 
     @Override
     public void send(UUID id) {
-
+        service.send(id);
     }
 }

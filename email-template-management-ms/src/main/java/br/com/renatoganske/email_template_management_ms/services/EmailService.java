@@ -7,7 +7,6 @@ import br.com.renatoganske.email_template_management_ms.entities.Recipient;
 import br.com.renatoganske.email_template_management_ms.errorHandling.exception.business.EmailNotFoundException;
 import br.com.renatoganske.email_template_management_ms.errorHandling.exception.business.EmailTemplateNotFoundException;
 import br.com.renatoganske.email_template_management_ms.errorHandling.exception.business.RecipientNotFoundException;
-import br.com.renatoganske.email_template_management_ms.producer.EmailProducer;
 import br.com.renatoganske.email_template_management_ms.repositories.EmailRepository;
 import br.com.renatoganske.email_template_management_ms.repositories.EmailTemplateRepository;
 import br.com.renatoganske.email_template_management_ms.repositories.RecipientRepository;
@@ -25,14 +24,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class EmailService {
 
-    private final EmailRepository repository;
+    private final EmailRepository emailRepository;
     private final EmailTemplateRepository emailTemplateRepository;
     private final RecipientRepository recipientRepository;
-    private final EmailProducer emailProducer;
+    private final EmailSenderService emailSenderService;
 
     public List<ToListEmailDto> getAll() {
         log.info("Getting all emails");
-        return repository.findAll().stream().map(Email::toListEmailDto).toList();
+        return emailRepository.findAll().stream().map(Email::toListEmailDto).toList();
     }
 
 
@@ -48,8 +47,10 @@ public class EmailService {
 
 
     public Email save(EmailOnlyIdDto emailOnlyIdDto) {
-        log.info("Saving email {}", emailOnlyIdDto.id());
-        return repository.save(emailOnlyIdDto.toEntity());
+        log.info("Saving email");
+        Email savedEmail = emailRepository.save(emailOnlyIdDto.toEntity());
+        log.info("Email with id {} saved", savedEmail.getId());
+        return savedEmail;
     }
 
 
@@ -77,7 +78,7 @@ public class EmailService {
             }
 
             log.info("Email with id {} updated", id);
-            return repository.save(email);
+            return emailRepository.save(email);
         } else {
             log.error("Email not found with id {}", id);
             throw new EmailNotFoundException();
@@ -88,7 +89,7 @@ public class EmailService {
         log.info("Deleting email template with id {}", id);
         if (getEmail(id).isPresent()) {
             log.info("Email template with id {} deleted", id);
-            repository.deleteById(id);
+            emailRepository.deleteById(id);
         } else {
             log.error("Email template not found with id {}", id);
             throw new EmailNotFoundException();
@@ -96,14 +97,16 @@ public class EmailService {
     }
 
     public void send(UUID id) {
-        emailProducer.publishMessageEmail(id);
+        List<EmailToBeSendDto> emailToBeSendDtos = prepareEmail(id);
+        emailSenderService.sendEmail(id, emailToBeSendDtos);
     }
 
     private Optional<Email> getEmail(UUID id) {
-        return repository.findById(id);
+        return emailRepository.findById(id);
     }
 
     public List<EmailToBeSendDto> prepareEmail(UUID emailId) {
+        log.info("Preparing email with id {}", emailId);
         Email email = getById(emailId);
         return email.getRecipients().stream()
                 .map(recipient -> new EmailToBeSendDto(

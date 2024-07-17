@@ -1,4 +1,4 @@
-package br.com.renatoganske.email_template_management_ms.configs;
+package br.com.renatoganske.email_template_management_ms.configs.rabbitMQ;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;

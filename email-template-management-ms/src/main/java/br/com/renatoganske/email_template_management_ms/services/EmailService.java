@@ -1,8 +1,6 @@
 package br.com.renatoganske.email_template_management_ms.services;
 
-import br.com.renatoganske.email_template_management_ms.dtos.EmailOnlyIdDto;
-import br.com.renatoganske.email_template_management_ms.dtos.OnlyIdRecipientDto;
-import br.com.renatoganske.email_template_management_ms.dtos.ToListEmailDto;
+import br.com.renatoganske.email_template_management_ms.dtos.*;
 import br.com.renatoganske.email_template_management_ms.entities.Email;
 import br.com.renatoganske.email_template_management_ms.entities.EmailTemplate;
 import br.com.renatoganske.email_template_management_ms.entities.Recipient;
@@ -105,4 +103,20 @@ public class EmailService {
         return repository.findById(id);
     }
 
+    public List<EmailToBeSendDto> prepareEmail(UUID emailId) {
+        Email email = getById(emailId);
+        return email.getRecipients().stream()
+                .map(recipient -> new EmailToBeSendDto(
+                        email.getId(),
+                        recipient.getEmail(),
+                        email.getTemplate().getSubject(),
+                        email.getTemplate().getContent(),
+                        List.of(new RecipientDto(
+                                recipient.getId(),
+                                recipient.getName(),
+                                recipient.getEmail()
+                        ))
+                ))
+                .toList();
+    }
 }

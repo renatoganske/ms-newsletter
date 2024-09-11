@@ -1,5 +1,6 @@
 package br.com.renatoganske.email_template_management_ms.dtos;
 
+import br.com.renatoganske.email_template_management_ms.entities.Email;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
@@ -13,4 +14,12 @@ public record ToListEmailDto(
         List<OnlyIdRecipientDto> recipients
 
 ) {
+    public Email toEntity() {
+        return Email.builder()
+                .id(id)
+                .template(template.toEntity())
+                .recipients(recipients.stream().map(OnlyIdRecipientDto::toEntity).toList())
+                .build();
+
+    }
 }
